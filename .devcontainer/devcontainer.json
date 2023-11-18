@@ -1,0 +1,64 @@
+{
+	"name": "PyNILM Dev Container",
+	
+	"dockerFile": "Dockerfile",
+
+	"build": { 
+			"args": { 
+				"IMAGE_VERSION": "2.12.0",
+				"IMAGE_TYPE": "-gpu-jupyter"
+			} 
+		},
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": { 
+				"python.testing.pytestEnabled": true,
+				"python.testing.pytestArgs": [ 
+					"./tensorflow"
+				],
+				"C_Cpp.clang_format_style": "{BasedOnStyle: Google}",
+				"C_Cpp.default.includePath": [
+					"${workspaceFolder}/**"
+					],
+				"files.watcherExclude": {
+					"**/bazel-*/**": true
+				},
+				"search.exclude": {
+					"**/bazel-*/**": true
+				}
+			},
+			
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-python.python",
+				"ms-vscode.cpptools",
+				"ms-toolsai.jupyter",
+				"ms-toolsai.jupyter-keymap",
+				"ms-toolsai.jupyter-renderers"
+			]
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand': Copying addional libs inside src
+	"postCreateCommand": "cd src/ && git clone https://github.com/diegocavalca/nilmtk-contrib.git && git clone https://github.com/diegocavalca/multi-nilm.git",
+
+    "mounts": [
+        "source=tensorflow_cache,target=/home/vscode/.cache/bazel/"
+      ],
+
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	"runArgs": [ 
+		"--cap-add=SYS_PTRACE",
+		// Uncomment this to enable Nvidia support
+		//"--runtime=nvidia",
+		"--security-opt",
+		"seccomp=unconfined" ],
+	"remoteUser": "vscode"
+}
