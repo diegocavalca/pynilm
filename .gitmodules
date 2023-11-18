@@ -1,3 +1,7 @@
+[submodule "src/nilmtk-contrib"]
+	path = src/nilmtk-contrib
+	url = https://github.com/diegocavalca/nilmtk-contrib.git
+
 [submodule "src/multi-nilm"]
 	path = src/multi-nilm
-	url = https://github.com/ChristoferNal/multi-nilm.git
+	url = https://github.com/diegocavalca/multi-nilm.git
