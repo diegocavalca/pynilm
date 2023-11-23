@@ -41,7 +41,14 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install additional packages
-RUN apt-get update && apt-get install -y vim git git-flow
+RUN apt-get update && apt-get install -y vim git git-flow python3-opencv
+
+# Install miniconda to /miniconda
+RUN mkdir -p ~/miniconda3 \
+    && wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh \
+    && bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3 \
+    && rm -rf ~/miniconda3/miniconda.sh
+ENV PATH=/miniconda/bin:${PATH}
 
 # Preparing Python Environment
 COPY requirements.txt ./
