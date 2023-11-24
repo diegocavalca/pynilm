@@ -3,6 +3,7 @@ git+https://github.com/nilmtk/nilmtk.git
 git+https://github.com/nilmtk/nilm_metadata.git
 git+https://github.com/manu-mannattil/nolitsa.git
 cvxpy==1.4.1
+gdown==4.7.1
 imageio==2.32.0
 ipykernel==6.22.0
 ipython==8.11.0
