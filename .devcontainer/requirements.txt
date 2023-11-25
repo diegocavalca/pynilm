@@ -9,6 +9,7 @@ ipykernel==6.22.0
 ipython==8.11.0
 numpy==1.19.5
 # numpy==1.23.5 # tf 2.12+
+openpyxl==3.1.2
 opencv-python==4.8.1.78
 pandas==0.25.3
 plotly==5.18.0
