@@ -57,6 +57,6 @@ RUN pip install -r requirements.txt --no-cache-dir
 # Downloading datasets
 RUN mkdir data
 # REDD
-gdown https://drive.google.com/uc?id=1-0TOF7P4vL44hW9bnxpMXiMUfJGnWk3K -O data/redd.h5
+RUN gdown https://drive.google.com/uc?id=1-0TOF7P4vL44hW9bnxpMXiMUfJGnWk3K -O data/redd.h5
 # UK-DALE
-gdown https://drive.google.com/uc?id=1Tv8p3jw8MtS070WaqbFvH3x7N-bgZtKE -O data/ukdale.h5
+RUN gdown https://drive.google.com/uc?id=1Tv8p3jw8MtS070WaqbFvH3x7N-bgZtKE -O data/ukdale.h5
