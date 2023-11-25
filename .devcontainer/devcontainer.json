@@ -46,8 +46,8 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
-	// Use 'postCreateCommand': Copying addional libs inside src
-	"postCreateCommand": "cd src/ && git clone https://github.com/diegocavalca/nilmtk-contrib.git && git clone https://github.com/diegocavalca/multi-nilm.git",
+	// // Use 'postCreateCommand': Copying addional libs inside src
+	"postCreateCommand": "pip install git+https://github.com/diegocavalca/nilmtk-contrib.git --no-deps && git clone https://github.com/diegocavalca/multi-nilm.git extras/multi-nilm",
 
     "mounts": [
         "source=tensorflow_cache,target=/home/vscode/.cache/bazel/"
