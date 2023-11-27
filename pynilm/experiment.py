@@ -1,3 +1,5 @@
+import os
+import sys
 import time
 import json
 import types
@@ -8,7 +10,10 @@ import pandas as pd
 from datetime import datetime
 from sklearn.base import clone
 from collections import defaultdict
-from src.data import DataWrapper
+from IPython.display import clear_output
+
+from pynilm.data import DataWrapper
+from pynilm.metrics import *
 
 class Experiment:    
     def __init__(
@@ -82,6 +87,8 @@ class Experiment:
         X_test = self.test_mains
         
         for model_name, model_pipeline in self.models.items():
+            clear_output()
+            print(f'Analyzing `{model_name}` pipeline')
 
             # TODO: refactor different actions in methods (data preparation,
             #   model fitting, performance evaluation, etc.
@@ -101,14 +108,15 @@ class Experiment:
                     }
 
                     # Preparing data
-                    y_train = self.train_activations[appliance]
-                    y_test = self.test_activations[appliance]
+                    y_train = np.array(self.train_activations[appliance])
+                    y_test = np.array(self.test_activations[appliance])
 
                     # Fitting the model
                     # start = time.time()
                     # model = clone(model_pipeline)
                     # model.fit(X_train, y_train)
                     # training_time = time.time() - start
+                    print(f'Fitting {appliance} model')
                     model, training_time = self.__fit__(model_pipeline, X_train, y_train)
 
                     # Prformance evaluation on test set
@@ -173,6 +181,7 @@ class Experiment:
         # Prformance evaluation on test set
         total_pred_time = 0                    
         for metric_name, metric_method in self.metrics.items():
+            print(f'Evaluating {metric_name}')
 
             score, pred_time = self.__eval_metric__(metric_method, model, X_test, y_test)
 
@@ -182,14 +191,23 @@ class Experiment:
         mean_pred_time = total_pred_time / len(self.metrics)
         
         return result, mean_pred_time
-
-        
         
     def __eval_metric__(self, metric_method, clf, X_test, y_test):
         
         # results[model_name][appliance][metric_name] = metric_method(y_test, y_pred)
         # Simple Python method / sklearn raw metric
-        if isinstance(metric_method, types.FunctionType):
+        if isinstance(metric_method, str):
+            
+            # Generating predictions
+            start = time.time()
+            y_pred = clf.predict(X_test)
+            pred_time = time.time() - start
+            
+            metric_method = globals()[metric_method] 
+            
+            score = metric_method(y_test, y_pred)
+        
+        elif isinstance(metric_method, types.FunctionType):
             
             # Generating predictions
             start = time.time()
